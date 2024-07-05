@@ -19,7 +19,7 @@ public class Candelarizado {
     
     private final SftpController sftpController;
     private final Logger logger = Logger.getLogger(Candelarizado.class.getName());
-    
+  //como
     public Candelarizado(SftpController sftpController) {
         this.sftpController = sftpController;
     }
