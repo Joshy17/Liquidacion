@@ -42,7 +42,7 @@ public class SftpController {
     // Detalles del servidor
     String hostname = "s-049c1379e80b490c8.server.transfer.us-east-2.amazonaws.com";
     String username = "usuarioAcceso";
-    String privateKeyPath = "C:/Users/XPC/Documents/Liquidicacion/src/main/java/Liquidacion/Liquidicacion/Controllers/id_rsa.txt"; // Ajusta la ruta a tu clave privada
+    String privateKeyPath = "src\\main\\resources\\id_rsa.txt"; // Ajusta la ruta a tu clave privada
 
     @PostMapping("/listar-archivos")
     public String listarArchivos() {
