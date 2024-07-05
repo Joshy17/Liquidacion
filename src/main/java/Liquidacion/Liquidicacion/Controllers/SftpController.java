@@ -134,7 +134,7 @@ public class SftpController {
             }
         }
     }
-     
+    //prueba
    public static String readFileContent(SFTPClient sftpClient, String filePath) {
         StringBuilder contentBuilder = new StringBuilder();
         try (RemoteFile remoteFile = sftpClient.open(filePath)) {
