@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -42,7 +45,6 @@ public class SftpController {
     // Detalles del servidor
     String hostname = "s-049c1379e80b490c8.server.transfer.us-east-2.amazonaws.com";
     String username = "usuarioAcceso";
-    String privateKeyPath = "src\\main\\resources\\id_rsa.txt"; // Ajusta la ruta a tu clave privada
 
     @PostMapping("/listar-archivos")
     public String listarArchivos() {
@@ -54,7 +56,18 @@ public class SftpController {
             sshClient.connect(hostname);
             System.out.println("Conexión establecida con el servidor: " + hostname);
 
-            KeyProvider keyProvider = sshClient.loadKeys(privateKeyPath);
+            // Cargar la clave privada desde los recursos
+            InputStream inputStream = getClass().getResourceAsStream("/id_rsa.txt");
+            if (inputStream == null) {
+                throw new RuntimeException("No se pudo encontrar el archivo de clave privada.");
+            }
+
+            // Crear un archivo temporal para la clave privada
+            Path tempKeyPath = Files.createTempFile("id_rsa", ".txt");
+            Files.copy(inputStream, tempKeyPath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Configurar SSHJ con la clave privada
+            KeyProvider keyProvider = sshClient.loadKeys(tempKeyPath.toString());
             sshClient.authPublickey(username, keyProvider);
             System.out.println("Autenticación exitosa para el usuario: " + username);
 
